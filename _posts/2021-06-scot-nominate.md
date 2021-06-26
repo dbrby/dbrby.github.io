@@ -3,9 +3,10 @@ title: 'parlScot or scotpol or scotParl or Whatever it' called again #1: Legisla
 date: 2021-06-25
 permalink: /posts/2021/06/scaling_models/
 tags:
+  - Scottish Politics
+  - Data collection
   - Scaling Models
-  - Dimensional Reduction
-  - Political Science
+  
 ---
 
 Daniel Braby
