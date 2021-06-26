@@ -9,11 +9,6 @@ tags:
 ---
 
 
-**Daniel Braby, Benjamin Guinaudeau & Marius Sältzer**
-
-**Daniel Braby**
-
-
 Earlier this year me and my friend and colleague Fraser Stewart
 @fraserjfstewart released parlScot v1: a dataset of 1.8 million spoken
 contributions in the Scottish Parliament.
