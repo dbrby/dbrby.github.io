@@ -6,7 +6,6 @@ tags:
   - Scottish Politics
   - Data collection
   - Scaling Models
-  
 ---
 
 Daniel Braby
