@@ -1,12 +1,15 @@
 ---
-title: 'parlScot or scotpol or scotParl or Whatever it' called again #1: Legislative Voting Records'
+title: 'Scaling Models and scotpol: Legislative Voting Records'
 date: 2021-06-27
 permalink: /posts/2021/06/scot-nominate/
 tags:
-  - Scottish Politics
-  - Data collection
-  - Scaling Models
+  - Scottish politics
+  - Dimensional Reduction
+  - Political Science
 ---
+
+
+**Daniel Braby, Benjamin Guinaudeau & Marius Sältzer**
 
 **Daniel Braby**
 
