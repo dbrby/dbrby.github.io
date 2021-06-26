@@ -14,4 +14,4 @@ My research focuses on the dimensions of political conflict. I consider what iss
 
 I apply a range of methods in my research including text-as-data, Bayesian statistics, scaling models (with a forthcoming survey of the field in print), machine learning and causal inference.
 
-Currently I reside in Leith, Edinburgh. As well as working away on the ole PhD, I maintain parlScot: an exhaustive dataset of spoken contributions in the Scottish Parliament. Linking this to other Scottish political data (manifestos, polls, conference speeches...) I am developing a one-stop shop as an R package simply titled `{scotpol}'.
+Currently I reside in Leith, Edinburgh. As well as working away on the ole PhD, I maintain parlScot: an exhaustive dataset of spoken contributions in the Scottish Parliament. Linking this to other Scottish political data (manifestos, polls, conference speeches...) I am developing a one-stop shop as an R package simply titled `{scotpol}`.
