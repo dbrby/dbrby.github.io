@@ -49,7 +49,12 @@ NOMINATE (a very clever acronym for Nominal Three Step Estimation) is a multidim
 
 All NOMINATE scaling procedures operate under the same fundamental assumptions, allowing us to positively assess the ideological position of legislators.
 
-Assumption #1- alternative choices, in this case the aggregation of votes as "yea" or "nay" given a bill, can be proected to a low-dimensional Euclidean Space.
+Assumption #1- alternative choices, in this case the aggregation of votes as "yea" or "nay" given a bill, can be projected to a low-dimensional Euclidean Space.
 
+Assumption #2- embedded in those low dimensional representations, individuals assume normally distributed utility functions
+
+Assumption #3 (2 and a half, really)- given utility functions are normally distributed, they maximise at their ideal points.
+
+Ideal points are interpreted as being individuals' most preferred outcome, hence, position.
 
 
