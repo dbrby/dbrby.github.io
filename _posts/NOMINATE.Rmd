@@ -2,7 +2,7 @@
 title: 'Scaling Models Series #1. NOMINATE: Multi-Dimensional Scaling of Roll-Call Voting in R'
 author: "Daniel Braby"
 date: "25/06/2021"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
