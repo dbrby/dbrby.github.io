@@ -1,6 +1,6 @@
 ---
 title: 'Scraping Legislators’ Facebook Posts Using facebook-scraper'
-date: 2021-06-25
+date: 2021-07-23
 permalink: /posts/2021/07/facebook_scraper/
 tags:
   - Social Media
