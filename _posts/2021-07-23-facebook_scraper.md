@@ -1,7 +1,7 @@
 ---
 title: 'Scraping Legislators’ Facebook Posts Using facebook-scraper'
 date: 2021-06-25
-permalink: /posts/2021/07/twint/
+permalink: /posts/2021/07/facebook_scraper/
 tags:
   - Social Media
   - Legislative Studies
