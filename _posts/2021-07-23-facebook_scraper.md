@@ -12,11 +12,12 @@ This blog post is the cousin of the last one. Instead of looking at
 legislators on Twitter, this time we are looking at Facebook. Much of
 the data I outline collecting here can be accessed through their
 official API. But Facebook’s rules and rate limits are strict. Tools
-like CrowdTangle are powerful for many forms of social inquiry, though
+like CrowdTangle are powerful for many forms of social research, though
 they aren’t the most accessible (see here in the [New York
 Times](https://www.nytimes.com/2021/07/14/technology/facebook-data.html)
 and in
 [Gizmodo](https://gizmodo.com/facebook-knifes-its-own-analytics-tool-to-hide-its-ben-1847291288).
+
 However, for our use case, scraping metadata and all posts from
 legislators, this can be readily achieved through targeted, non-rate
 limited tools. And much like the last blog, this is a tool that breaches
@@ -32,7 +33,7 @@ legislative studies research is Sascha Gobel and Simon Munzert’s
 ‘Comparative Legislators Database’. Which we can call from the
 convenient R interface `{legislatoR}`.
 
-… yes, this is almost the exact same code as last time with two terms
+- … yes, this is almost the exact same code as last time with two terms
 changed. I saw someone post recently about Facebook posts for
 US-Senators, so I’ll do that instead of MSPs.
 
@@ -62,14 +63,14 @@ Senators’ Facebook pages
 
 # facebook-scraper for scraping pages
 
-[facebook-scraper](https://pypi.org/project/facebook-scraper/) is
+[facebook-scraper](https://pypi.org/project/facebook-scraper/) is a
 package written in Python for scraping public Facebook pages without the
 need for an API key. on is simple enough:
 
 `$ pip install facebook-scraper`
 
 Currently the package doesn’t support scraping multiple pages, however I
-hear they are currently or planning on providing support for this. For
+hear they are currently or are planning on providing support for this. For
 now there are ways to get around this (probably in ways far easier than
 I set out here).
 
