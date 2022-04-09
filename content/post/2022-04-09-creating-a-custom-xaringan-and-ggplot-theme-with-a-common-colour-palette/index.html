@@ -1,0 +1,194 @@
+---
+title: Creating a custom xaringan and ggplot theme with a common colour palette
+author: Daniel Braby
+date: '2022-04-09'
+slug: creating-a-custom-xaringan-and-ggplot-theme-with-a-common-colour-palette
+categories:
+  - R
+tags:
+  - data viz
+  - plot
+  - forestry
+  - xaringan
+---
+
+<script src="{{< blogdown/postref >}}index_files/header-attrs/header-attrs.js"></script>
+
+
+<div id="xxmisc" class="section level2">
+<h2>XXmisc</h2>
+<p>I see a lot of people host R packages on their GitHub following the naming convention, first initial, last initial, misc. These usually contain a range of functions that are used in day-to-day work, but require some tweaking compared to those readily available through packages on CRAN. Sometimes these are a set of statistical operations for a specific purpose (i.e. dealing with bias in ordered rating scales or for weighting count data given some rate of occurrence). Other times these packages contain custom themes for <code>ggplot2</code>, templates, for <code>beamer</code> or settings for <code>xaringan</code> slides.</p>
+<p>In this blog, I’m going to show my workflow as I go about setting up an R package that contains custom themes for <code>ggplot2</code> and <code>xaringan</code> in the flavor of my new workplace, <a href="https://www.forestresearch.gov.uk/">Forest Research</a>.</p>
+</div>
+<div id="setting-up-an-r-package" class="section level2">
+<h2>Setting up an R Package</h2>
+<p>A couple of weeks ago, when I was looking into creating an R package to wrap APIs of the Scottish Parliament, I stumbled on this blog by <a href="https://colinfay.me/build-api-wrapper-package-r/">Colin Fay</a>. While the blog substantively deals with creating a package and functions to download data, there are some great general bits of workflow that speed up package development. This blog borrows heavily from that.</p>
+<p>Firstly, make sure you have these packages installed:</p>
+<pre class="r"><code>install.packages(&quot;devtools&quot;)
+install.packages(&quot;roxygen2&quot;)
+install.packages(&quot;usethis&quot;)
+devtools::install_github(&quot;r-lib/desc&quot;)</code></pre>
+<p>Next we make a new project in RStudio, now that we have <code>devtools</code> installed you will see this option after selecting New Directory.</p>
+<p><img src="images/paste-D484BA84.png" /></p>
+<p>I’ve named mine <code>dbmisc</code>.</p>
+<p>In your terminal, run the <code>use_data_raw()</code> function from <code>usethis</code>. This creates a folder titled <code>/data_raw</code> where we can store the below R script which I title “devstuff”.</p>
+<pre class="r"><code>library(devtools)
+library(usethis)
+library(desc)
+
+# Remove default DESC
+unlink(&quot;DESCRIPTION&quot;)
+# Create and clean desc
+my_desc \&lt;- description\$new(&quot;!new&quot;)
+
+# Set your package name, where I write &quot;dbmisc&quot;
+
+my_desc\$set(&quot;Package&quot;, &quot;dbmisc&quot;)
+
+#Set your name and e-mail
+my_desc\$set(&quot;Authors\@R&quot;, &quot;person(&#39;Daniel&#39;, &#39;Braby&#39;, email = &#39;danbraby\@icloud.com&#39;, role = c(&#39;cre&#39;, &#39;aut&#39;))&quot;)
+
+# Remove some author fields
+my_desc\$del(&quot;Maintainer&quot;)
+
+# Set the version
+my_desc\$set_version(&quot;0.0.0.9000&quot;)
+
+# The title of your package
+my_desc\$set(Title = &quot;dbmisc&quot;)
+# The description of your package
+my_desc\$set(Description = &quot;This package contains functions and templates that I use for my work.&quot;)
+# The urls
+my_desc\$set(&quot;URL&quot;, &quot;http://this&quot;)
+my_desc\$set(&quot;BugReports&quot;, &quot;http://that&quot;)
+# Save everyting
+my_desc\$write(file = &quot;DESCRIPTION&quot;)
+
+# If you want to use the MIT licence, code of conduct, and lifecycle badge
+use_mit_license(name = &quot;Daniel Braby&quot;)
+use_code_of_conduct()
+use_lifecycle_badge(&quot;Experimental&quot;)
+use_news_md()
+
+# Get the dependencies
+use_package(&quot;ggplot2&quot;)
+use_package(&quot;xaringan&quot;)
+use_package(&quot;xaringanthemer&quot;)
+
+
+# Clean your description
+use_tidy_description()</code></pre>
+<p>This is going to do a few things, such as:: adding a name to the package, generating a description which contains the license, import the neccesary packages and create some files and the R folder for writing packages.</p>
+</div>
+<div id="writing-a-xaringan-custom-theme" class="section level2">
+<h2>Writing a Xaringan Custom Theme</h2>
+<p>In the R folder we can begin writing functions, the first we’re going to create is <code>colours.R</code> this is going to contain a vector with the colours we will include in our <code>xaringan</code> and <code>ggplot2</code> themes.</p>
+<p>But how do we get the colors. There are some R packages which allow the extraction of colours from images, but in my experience these tend to just give shades of white and then require parsing through a dataset of hex colours without an easy way to see what these mean. I much prefer using the chrome extension <a href="https://chrome.google.com/webstore/detail/hex-color-picker/eamkimleiebmdpifljjfilhbaehclahg">Hex Color Picker</a>.</p>
+<p>Once this is downloaded and pinned to the toolbar we can use the selection tool to obtain the hex and rgb codes.</p>
+<p><img src="images/paste-A1156A9A.png" /></p>
+<p>Click on the color picker gadget in the black box and the selection tool will appear. On the relevant webpage or image move the cursor over the color and click. The output will then return in the Color Picker App, where we will copy the hex code and use the naming convention (i.e. darkslateblue, as above).</p>
+<p><img src="images/paste-EB068E2C.png" /></p>
+<p>We will write these codes and store them as objects in a file in our <code>R/</code> folder under <code>colours.R</code> or <code>colors.R</code> if you wanna….</p>
+<pre class="r"><code>#&#39; Forest Research Colour Palette
+#&#39; 
+#&#39; This file contains the colours we will use for our ggplot2 and xaringan theme
+#&#39; 
+
+forestgreen = &quot;#006937&quot;
+
+olivedrab = &quot;#64a70a&quot;
+
+darkslateblue = &quot;#67257f&quot;
+
+white = &quot;#ffffff&quot;
+
+darkslategray = &quot;#333333&quot;
+
+gray = &quot;#956b9c&quot;
+
+lightgray = &quot;#D3D3D3&quot;</code></pre>
+<p>Next we will use these colours to create a customised xaringan theme with <code>xaringantheme</code>. We will write this function following the naming convention: what for, _, xaringan. In this case, I’ll write <code>forest_xaringan.R</code>.</p>
+<p>Additionally, I have downloaded two seperate versions of the Department’s logo to include in the slides. I save these under a file <code>img/</code>, host these on the GitHub repo and call them using their web address.</p>
+<pre class="r"><code>#&#39; Forest Research Xaringan Theme
+#&#39; 
+#&#39; This file contains a pre-designated theme which can be easily called as a function
+#&#39; 
+#&#39; @importFrom xaringanthemer style_xaringan
+#&#39; 
+
+forest_xaringan &lt;- function(){
+  style_xaringan(
+  text_color = darkslategray, # Usual text
+  header_color = darkslateblue, # Slide heading titles
+  background_color = white, # Background Colour
+  link_color = olivedrab, # Colour for embedded links
+  text_bold_color = forestgreen, # Bold text colour
+  code_highlight_color = olivedrab, # Highlighted code
+  code_inline_color = darkslateblue, # In line code 
+  code_inline_background_color = lightgray, # Background of code
+  title_slide_background_color = white, # Title slide Background
+  title_slide_text_color = forestgreen, # Text on title slide
+  footnote_color = forestgreen # Footnote text colour,
+  background_image = &quot;https://github.com/dbrby/dbmisc/blob/master/img/fr_logo.png?raw=true&quot;,
+    background_position = &quot;left bottom&quot;,
+    background_size = &quot;10% 10%&quot;,
+    title_slide_background_image = &quot;https://github.com/dbrby/dbmisc/blob/master/img/fr_logo2.png?raw=true&quot;,
+    title_slide_background_size = &quot;40% 40%&quot;,
+    title_slide_background_position = &quot;left bottom&quot;
+)
+}</code></pre>
+<p><code>style_xaringan()</code>, previously <code>write_xaringan_theme()</code>, generates a customised xaringan theme CSS file which is read in when knitting slides from the <code>xaringanthemer</code> template</p>
+<p><img src="images/Screen%20Shot%202022-04-09%20at%2014.48.12.png" /></p>
+<p>The CSS file can be stored locally when running the <code>style_xaringan()</code> function with <code>outfile = ""</code>. However, I prefer to run the custom function <code>theme_xaringan()</code> when generating slides myself.</p>
+<p>We do this by editing the <code>{r xaringanthemer}</code> code chunk at the top of the script. From the <code>style_duo_accent()</code> preset to our custom theme, in this case <code>forest_xaringan()</code>.</p>
+<pre class="r"><code># install.packages(&quot;devtools&quot;)
+# devtools::install_github(&quot;dbrby/dbmisc&quot;)
+require(dbmisc)
+
+forest_xaringan()</code></pre>
+<p>And when we knit our slides, we get:</p>
+<div id="title-slide" class="section level3">
+<h3>Title Slide</h3>
+<p><img src="images/Screen%20Shot%202022-04-09%20at%2014.56.17.png" /></p>
+</div>
+<div id="regular-slide" class="section level3">
+<h3>Regular Slide</h3>
+<p><img src="images/Screen%20Shot%202022-04-09%20at%2014.56.53.png" /></p>
+</div>
+</div>
+<div id="writing-a-ggplot2-theme" class="section level2">
+<h2>Writing a ggplot2 Theme</h2>
+<p><code>ggplot2</code> is remarkably extensible and I am yet to fully appreciate the range of changes we can make to a theme. I am a fan of <code>theme_minimal()</code> and for now am only looking to make subtle changes to the text featured in my plots.</p>
+<p>We can make adjustments to a pre-existent theme using <code>%+replace%</code>. Instead of generating a wholly custom theme, this allows specified features to be augmented.</p>
+<p>For now I am only going to edit 3 text features, the plot title, subtitle and caption, to include Forest Research flavour. We do this by specifying the element to change within the <code>theme()</code> function and specify the size, face, position and colour of the text.</p>
+<pre class="r"><code>#&#39; Custom ggplot Theme in Forest Research Flavor.
+#&#39;
+#&#39; This is a minimal change to the minimal theme of ggplot2, to position text elements and add some colour.
+#&#39; @import ggplot2
+#&#39; @export
+
+
+
+theme_forest &lt;- function() {
+  theme_minimal() %+replace%
+    
+    theme(
+      
+      plot.title = element_text(size = 20,
+                                face = &#39;bold&#39;,
+                                hjust = 0,
+                                vjust = 2,
+                                colour = forestgreen
+    ),
+      plot.subtitle = element_text(size = 14,
+                                   hjust = 0,
+                                   colour = olivedrab),
+      plot.caption = element_text(size = 9,
+                                hjust = 1,
+                                colour = darkslateblue))
+    
+    
+    
+}</code></pre>
+<p>Now adding <code>theme_xaringan()</code> to a <code>ggplot</code> will generate:</p>
+</div>
